@@ -39,10 +39,9 @@ def sending_msg_user(msg, phone_num):
     res = requests.post(url=URL, headers=HEADERS, json=REQ_BODY)
     print(f"request status code: {res.status_code}")
     if res.status_code == 200:
-        print(f"Successfully register the number {phone_num} to team {TEAMNAME}")
+        print(f"Successfully sending the message to the number")
         return True
     else:
-        print(f"Can not register the number {phone_num} to team {TEAMNAME}")
+        print(f"Can not send message to the number")
         return False
 
-sending_msg_user("Test Test Test", "4917691389266")

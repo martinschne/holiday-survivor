@@ -43,5 +43,24 @@ def register_new_user(phone_num):
         print(f"Can not register the number {phone_num} to team {TEAMNAME}")
         return False
 
+def unregister_user(phone_num):
+    #validate phone number
+    validate_input(phone_num)
 
-register_new_user("49223456789")
+    #Sending unregister request
+    URL = "http://hackathons.masterschool.com:3030/team/unregisterNumber"
+    REQ_BODY = {
+        "phoneNumber": phone_num,
+        "teamName": TEAMNAME
+    }
+    HEADERS = {
+        "Content-Type": "application/json"
+    }
+    res = requests.post(url=URL, headers=HEADERS, json=REQ_BODY)
+    print(f"request status code: {res.status_code}")
+    if res.status_code == 200:
+        print(f"Successfully unregister the number {phone_num} from team {TEAMNAME}")
+        return True
+    else:
+        print(f"Can not unregister the number {phone_num} from team {TEAMNAME}")
+        return False
