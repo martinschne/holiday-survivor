@@ -1,6 +1,7 @@
+import sys
+
 from registration_mgnt import register_new_user
 from sending_msg_user import sending_msg_user
-import sys
 
 
 def introduction_display():
@@ -22,7 +23,7 @@ def menu_dispatch():
     # create a menu dict
     menu_option = {
         "1": command_register_new_user,
-        #"2": command_unregister_user,
+        # "2": command_unregister_user,
         "2": command_sending_custom_msg_to_user,
         "3": command_quit_program,
     }
@@ -51,6 +52,7 @@ def command_register_new_user():
     register_new_user(user_input)
     print("------------------------------------------")
 
+
 """
 def command_unregister_user():
     print("-----------Unregister a new user!-----------")
@@ -59,6 +61,8 @@ def command_unregister_user():
     unregister_user(user_input)
     print("--------------------------------------------")
 """
+
+
 def command_sending_custom_msg_to_user():
     print("-----------Sending custom msg to user!-----------")
     print("-------------------------------------------------")
@@ -67,11 +71,11 @@ def command_sending_custom_msg_to_user():
     sending_msg_user(user_input_msg, user_input_number)
     print("-------------------------------------------------")
 
+
 def command_quit_program():
     print("----------------See you next time!---------------")
     print("-------------------------------------------------")
     sys.exit()
-    print("-------------------------------------------------")
 
 
 def main():

@@ -1,11 +1,14 @@
+import os
+
 import requests
 from dotenv import load_dotenv
-import os
+
 load_dotenv()
 TEAMNAME = os.getenv("TEAMNAME")
 MASTERSCHOOL_API_NUMBER = os.getenv("MASTERSCHOOL_API_NUMBER")
 
-def validate_inputs(msg, phone_num):
+
+def _validate_inputs(msg, phone_num):
     # Validate msg type input
     try:
         str(msg)
@@ -13,7 +16,6 @@ def validate_inputs(msg, phone_num):
         print("Not a valid message:" + str(e))
 
     # Validate phone_num input
-
     if not phone_num.isnumeric() or phone_num[0] == "0":
         raise ValueError("Phone Number Format not Valid!")
     else:
@@ -26,17 +28,17 @@ def validate_inputs(msg, phone_num):
 
 
 def sending_msg_user(msg, phone_num):
-    validate_inputs(msg, phone_num)
-    URL = "http://hackathons.masterschool.com:3030/sms/send"
-    REQ_BODY = {
+    _validate_inputs(msg, phone_num)
+    sms_sending_url = "http://hackathons.masterschool.com:3030/sms/send"
+    payload = {
         "phoneNumber": phone_num,
         "message": msg,
         "sender": MASTERSCHOOL_API_NUMBER
     }
-    HEADERS = {
+    request_headers = {
         "Content-Type": "application/json"
     }
-    res = requests.post(url=URL, headers=HEADERS, json=REQ_BODY)
+    res = requests.post(url=sms_sending_url, headers=request_headers, json=payload)
     print(f"request status code: {res.status_code}")
     if res.status_code == 200:
         print(f"Successfully sending the message to the number")
@@ -44,4 +46,3 @@ def sending_msg_user(msg, phone_num):
     else:
         print(f"Can not send message to the number")
         return False
-

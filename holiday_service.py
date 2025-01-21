@@ -1,7 +1,8 @@
-import requests
-from datetime import datetime
-from dotenv import load_dotenv
 import os
+from datetime import datetime
+
+import requests
+from dotenv import load_dotenv
 
 load_dotenv()
 API_KEY = os.getenv("HOLIDAY_API_KEY")

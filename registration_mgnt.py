@@ -1,8 +1,11 @@
+import os
+
 import requests
 from dotenv import load_dotenv
-import os
+
 load_dotenv()
 TEAMNAME = os.getenv("TEAMNAME")
+
 
 def validate_input(phone_num):
     """
@@ -26,15 +29,15 @@ def register_new_user(phone_num):
     # checking if the phone number only consists of digit
     validate_input(phone_num)
 
-    URL = "http://hackathons.masterschool.com:3030/team/registerNumber"
-    REQ_BODY = {
+    num_registration_url = "http://hackathons.masterschool.com:3030/team/registerNumber"
+    payload = {
         "phoneNumber": phone_num,
         "teamName": TEAMNAME
     }
-    HEADERS = {
+    request_headers = {
         "Content-Type": "application/json"
     }
-    res = requests.post(url=URL, headers=HEADERS, json=REQ_BODY)
+    res = requests.post(url=num_registration_url, headers=request_headers, json=payload)
     print(f"request status code: {res.status_code}")
     if res.status_code == 200:
         print(f"Successfully register the number {phone_num} to team {TEAMNAME}")
@@ -43,20 +46,21 @@ def register_new_user(phone_num):
         print(f"Can not register the number {phone_num} to team {TEAMNAME}")
         return False
 
+
 def unregister_user(phone_num):
-    #validate phone number
+    # validate phone number
     validate_input(phone_num)
 
-    #Sending unregister request
-    URL = "http://hackathons.masterschool.com:3030/team/unregisterNumber"
-    REQ_BODY = {
+    # Sending unregister request
+    num_unregistration_url = "http://hackathons.masterschool.com:3030/team/unregisterNumber"
+    payload = {
         "phoneNumber": phone_num,
         "teamName": TEAMNAME
     }
-    HEADERS = {
+    request_headers = {
         "Content-Type": "application/json"
     }
-    res = requests.post(url=URL, headers=HEADERS, json=REQ_BODY)
+    res = requests.post(url=num_unregistration_url, headers=request_headers, json=payload)
     print(f"request status code: {res.status_code}")
     if res.status_code == 200:
         print(f"Successfully unregister the number {phone_num} from team {TEAMNAME}")
