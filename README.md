@@ -5,7 +5,7 @@
 An application which gives the users reminder about upcoming holiday via SMS at their required time according to the federal holiday schedule (in Germany)
 
 ## Team / roles: ##
-1. Martin - Team Lead / GitHub Repo owner
+1. Martin - GitHub Repo owner
 2. Philipp - coder
 3. Gerardo - coder
 4. Hoang - coder
