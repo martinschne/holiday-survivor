@@ -1,14 +1,17 @@
 import requests
 
 TEAMNAME = "HolidaySurvivors"
+MASTERSCHOOL_API_NUMBER = "491771786208"
 
+def validate_inputs(msg, phone_num):
+    # Validate msg type input
+    try:
+        str(msg)
+    except ValueError as e:
+        print("Not a valid message:" + str(e))
 
-def validate_input(phone_num):
-    """
-    phone_num should be a string
-    :param phone_num:
-    :return:
-    """
+    # Validate phone_num input
+
     if not phone_num.isnumeric() or phone_num[0] == "0":
         raise ValueError("Phone Number Format not Valid!")
     else:
@@ -20,15 +23,13 @@ def validate_input(phone_num):
             print("Not a valid phone number: " + str(e))
 
 
-def register_new_user(phone_num):
-    # phone_num type handling
-    # checking if the phone number only consists of digit
-    validate_input(phone_num)
-
-    URL = "http://hackathons.masterschool.com:3030/team/registerNumber"
+def sending_msg_user(msg, phone_num):
+    validate_inputs(msg, phone_num)
+    URL = "http://hackathons.masterschool.com:3030/sms/send"
     REQ_BODY = {
         "phoneNumber": phone_num,
-        "teamName": TEAMNAME
+        "message": msg,
+        "sender": MASTERSCHOOL_API_NUMBER
     }
     HEADERS = {
         "Content-Type": "application/json"
@@ -41,6 +42,3 @@ def register_new_user(phone_num):
     else:
         print(f"Can not register the number {phone_num} to team {TEAMNAME}")
         return False
-
-
-register_new_user("49223456789")
