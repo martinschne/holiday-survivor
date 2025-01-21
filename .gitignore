@@ -185,3 +185,6 @@ pyrightconfig.json
 # Ignore all local history of files
 .history
 .ionide
+
+# Generated file for storing processed messages
+processed_messages.json
