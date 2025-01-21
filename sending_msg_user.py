@@ -1,7 +1,9 @@
 import requests
-
-TEAMNAME = "HolidaySurvivors"
-MASTERSCHOOL_API_NUMBER = "491771786208"
+from dotenv import load_dotenv
+import os
+load_dotenv()
+TEAMNAME = os.getenv("TEAMNAME")
+MASTERSCHOOL_API_NUMBER = os.getenv("MASTERSCHOOL_API_NUMBER")
 
 def validate_inputs(msg, phone_num):
     # Validate msg type input
@@ -42,3 +44,5 @@ def sending_msg_user(msg, phone_num):
     else:
         print(f"Can not register the number {phone_num} to team {TEAMNAME}")
         return False
+
+sending_msg_user("Test Test Test", "4917691389266")

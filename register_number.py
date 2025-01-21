@@ -1,7 +1,8 @@
 import requests
-
-TEAMNAME = "HolidaySurvivors"
-
+from dotenv import load_dotenv
+import os
+load_dotenv()
+TEAMNAME = os.getenv("TEAMNAME")
 
 def validate_input(phone_num):
     """
