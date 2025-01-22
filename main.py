@@ -1,8 +1,8 @@
 import sys
 
 from json_storage import JSONStorage
-from registration_mgnt import register_new_user
-from sending_msg_user import sending_msg_user
+from registration import register_new_user
+from sms_sender import sending_msg_user
 from sms_polling import poll_sms_messages
 
 storage = JSONStorage("holiday_survivors_json.json")
