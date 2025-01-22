@@ -1,6 +1,6 @@
 import re
 from datetime import datetime
-from sending_msg_user import sending_msg_user
+from sms_sender import sending_msg_user
 from holiday_service import HolidayService
 
 REMINDER_PATTERN = r"^REMINDER\s*((?:[01]?\d|2[0-3]):[0-5]\d)"
