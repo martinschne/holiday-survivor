@@ -1,10 +1,5 @@
-import os
-
 import requests
-from dotenv import load_dotenv
-
-load_dotenv()
-TEAMNAME = os.getenv("TEAMNAME")
+from config import TEAMNAME
 
 
 def validate_input(phone_num: str) -> None:
