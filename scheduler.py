@@ -1,6 +1,9 @@
-import time
 import asyncio
+from datetime import datetime, timedelta
+
 import schedule
+from holiday_service import HolidayService
+from sms_sender import sending_msg_user
 
 REMINDER_TAG = "reminder"
 
@@ -9,17 +12,35 @@ reminder_time = "08:00"
 
 
 def _remind_if_holiday_job(phone_num):
-    # get all holidays
+    # get day before next holiday
+    next_holiday = HolidayService().get_next_holiday()
+    holiday_name = next_holiday["name"]
+    next_holiday_date_obj = get_date_obj(next_holiday)
+    day_before_next_holiday = next_holiday_date_obj - timedelta(days=1)
+
     # if next day is a holiday
-    # send a reminder message
-    print(f"{phone_num} reminder")
+    if day_before_next_holiday.date() == datetime.now().date():
+        # send a reminder message
+        msg = f"Hey don't forget, tomorrow is {holiday_name}!"
+        sending_msg_user(msg, phone_num)
+
+
+def get_date_obj(holiday_obj):
+    next_holiday_date_str = holiday_obj["date"]
+    next_holiday_date_obj = datetime.strptime(
+        next_holiday_date_str, "%Y-%m-%d"
+    )
+
+    return next_holiday_date_obj
 
 
 async def start_scheduler():
     """
     Initiate the scheduler and run tasks
     """
-    schedule.every().day.at().do(_remind_if_holiday_job, "1234").tag(REMINDER_TAG, 1234)
+    schedule.every().day.at().do(_remind_if_holiday_job, "1234").tag(
+        REMINDER_TAG, 1234
+    )
     while run:
         schedule.run_pending()
         asyncio.sleep(1)
@@ -32,7 +53,9 @@ def set_reminder_time(phone_num, new_reminder_time):
     """
     schedule.clear(phone_num)
     # schedule.every().day.at(new_reminder_time).do(_remind_if_holiday_job, phone_num).tag(REMINDER_TAG, phone_num)
-    schedule.every(new_reminder_time).seconds.do(_remind_if_holiday_job, phone_num).tag(REMINDER_TAG, phone_num)
+    schedule.every(new_reminder_time).seconds.do(
+        _remind_if_holiday_job, phone_num
+    ).tag(REMINDER_TAG, phone_num)
 
 
 def stop_scheduler():
@@ -52,4 +75,8 @@ async def main():
     # Keep the program running indefinitely
     await asyncio.get_event_loop().run_forever()
 
+
 asyncio.run(main())
+
+
+_remind_if_holiday_job("1234")
