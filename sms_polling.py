@@ -52,7 +52,7 @@ def poll_sms_messages(storage) -> None:
                     """ NOTE here goes process_message function: """
                     process_message(phone_num, message)
 
-        storage._save(response_obj)
+        storage.save(response_obj)
 
     # time.sleep(INTERVAL)
 
