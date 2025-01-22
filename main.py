@@ -1,7 +1,10 @@
 import sys
-
+from sms_polling import poll_sms_messages
 from registration_mgnt import register_new_user
 from sending_msg_user import sending_msg_user
+from json_storage import JSONStorage
+
+storage = JSONStorage("holiday_survivors_json.json")
 
 
 def introduction_display():
@@ -14,7 +17,8 @@ def menu_display():
     menu_content = """
             1. Register new user
             2. Sending a custom message to user
-            3. Quit program
+            3. Get message
+            4. Quit program
     """
     print(menu_content)
 
@@ -25,7 +29,9 @@ def menu_dispatch():
         "1": command_register_new_user,
         # "2": command_unregister_user,
         "2": command_sending_custom_msg_to_user,
-        "3": command_quit_program,
+        "3": command_get_msg,
+        "4": command_quit_program
+
     }
 
     # print menu content
@@ -34,15 +40,22 @@ def menu_dispatch():
     # handling user input
     while True:
         try:
-            user_input = int(input("Please enter a number (1-3) to choose an option below:"))
-            if user_input < 1 or user_input > 3:
-                raise ValueError("Please only enter a number between 1-3 (1 and 3 included)")
+            user_input = int(input(f"Please enter a number (1-{len(menu_option)}) to choose an option below:"))
+            if user_input < 1 or user_input > len(menu_option):
+                raise ValueError(
+                    f"Please only enter a number between 1-{len(menu_option)} (1 and {len(menu_option)} included)")
         except ValueError as e:
-            print("Please only enter a number between 1 and 3 (1 and 3 included):" + str(e))
+            print(
+                f"Please only enter a number between 1 and {len(menu_option)} (1 and {len(menu_option)} included):" + str(
+                    e))
         else:
             break
     # invoke the chosen function
     menu_option[f"{user_input}"]()
+
+
+def command_get_msg():
+    poll_sms_messages(storage)
 
 
 def command_register_new_user():

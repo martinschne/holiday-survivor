@@ -41,6 +41,7 @@ class HolidayService:
             today = datetime(year=self.year, month=self.month, day=self.day)
             fake_today = today.replace(year=self.year)
             if date > fake_today:
+                print(holiday)
                 return holiday
 
         return data["holidays"][0]
