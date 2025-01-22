@@ -96,14 +96,13 @@ def command_register_new_user():
 
 
 # currently not in use
-"""
-def command_unregister_user():
-    print("-----------Unregister a new user!-----------")
-    print("--------------------------------------------")
-    user_input = input("Please enter the phone number to unregister (enter prefix number following phone number):")
-    unregister_user(user_input)
-    print("--------------------------------------------")
-"""
+# def command_unregister_user():
+#     print("-----------Unregister a new user!-----------")
+#     print("--------------------------------------------")
+#     user_input = input("Please enter the phone number to unregister (enter prefix number following phone number):")
+#     unregister_user(user_input)
+#     print("--------------------------------------------")
+
 
 
 def command_sending_custom_msg_to_user():
