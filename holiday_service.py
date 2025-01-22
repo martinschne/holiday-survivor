@@ -38,7 +38,7 @@ class HolidayService:
             "key": self.key,
         }
 
-    def get_next_holiday(self):
+    def get_next_holiday(self) -> dict:
         """
         Get the name of the next holiday in the specified country.
 
@@ -74,7 +74,7 @@ class HolidayService:
         return data["holidays"][0]
 
     # This method is not used in the current app state
-    def get_all_holidays(self):
+    def get_all_holidays(self) -> list:
         """
         Get a list of all holidays for the specified country in the specified year.
 
