@@ -25,39 +25,6 @@ def poll_sms_messages(storage) -> None:
             f"Polling request to getMessages API endpoint failed with status code {response.status_code}")
     else:
         response_obj = response.json()
-    # TEST DATA
-    # response_obj = {
-    #     "12345": [
-    #         {
-    #             "text": "hello 1",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         },
-    #         {
-    #             "text": "hello 2",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         }
-    #     ],
-    #     "999": [
-    #         {
-    #             "text": "SUBSCRIBE TeadsfsfmAC",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         },
-    #         {
-    #             "text": "new message on 999",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         }
-    #     ],
-    #     "000": [
-    #         {
-    #             "text": "bachar",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         },
-    #         {
-    #             "text": "000 send second message",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         }
-    #     ],
-    # }
     storage_obj = storage.all()
 
     response_str = json.dumps(response_obj)
