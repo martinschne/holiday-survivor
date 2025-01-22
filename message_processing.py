@@ -1,12 +1,14 @@
 import re
 from datetime import datetime
-from sending_msg_user import sending_msg_user
+from sms_sender import sending_msg_user
 from holiday_service import HolidayService
+from search_engine_ai import answer_question_in_sms
 
 REMINDER_PATTERN = r"^REMINDER\s*((?:[01]?\d|2[0-3]):[0-5]\d)"
 NEXT_HOLIDAY_PATTERN = r"^NEXT\s*HOLIDAY$"
 # ALL_HOLIDAYS_PATTERN = r"^ALL\s*HOLIDAYS$"
 INSTRUCTIONS_PATTERN = r"^INSTRUCTIONS"
+HELP_PATTERN = r"^HELP:\s*(.+)$"
 
 
 def process_message(phone_num, message):
@@ -24,7 +26,7 @@ def process_message(phone_num, message):
         phone_num (str): The phone number of the user who sent the message.
         message (Message): The message object containing the text to be processed.
     """
-    print(message)
+    # print(message)
     normalized_message_text = message["text"].strip().upper()
 
     if re.match(REMINDER_PATTERN, normalized_message_text):
@@ -34,6 +36,8 @@ def process_message(phone_num, message):
         _send_next_holiday(phone_num)
     elif re.match(INSTRUCTIONS_PATTERN, normalized_message_text):
         _send_instructions(phone_num)
+    elif re.match(HELP_PATTERN, normalized_message_text):
+        _send_answer_to_user(normalized_message_text, phone_num)
     else:  # no known pattern was matched
         _send_error_message(phone_num)
 
@@ -55,6 +59,7 @@ def _send_instructions(phone_num):
     'instructions': to get instructions
     'reminder hh:mm': to set a time reminder for the holiday
     'next holiday': to see the next holiday
+    'help:<your question>' : to get a short answer for any question
     """
     sending_msg_user(msg, phone_num)
 
@@ -62,3 +67,13 @@ def _send_instructions(phone_num):
 def _send_error_message(phone_num):
     msg = "Wrong Command, please send an sms with 'instructions' text to get possible commands."
     sending_msg_user(msg, phone_num)
+
+
+def _send_answer_to_user(normalized_message_text, phone_num):
+    question = normalized_message_text[5:]
+    answer = answer_question_in_sms(question)
+    print("sent question:")
+    print(question)
+    print("sent answer:")
+    print(answer.upper())
+    sending_msg_user(answer, phone_num)
