@@ -9,7 +9,7 @@ class JSONStorage:
     This class provides methods to create, read, update, and delete entries in a JSON file.
     It also allows retrieving all stored key-value pairs.
     """
-
+  
     def __init__(self, file_path):
         """
         Initialize a new JSONStorage object.
