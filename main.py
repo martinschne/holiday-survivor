@@ -19,6 +19,7 @@ def menu_display():
             2. Sending a custom message to user
             3. Get message
             4. Quit program
+            
     """
     print(menu_content)
 

@@ -2,11 +2,13 @@ import re
 from datetime import datetime
 from sending_msg_user import sending_msg_user
 from holiday_service import HolidayService
+from search_engine_ai import answer_question_in_sms
 
 REMINDER_PATTERN = r"^REMINDER\s*((?:[01]?\d|2[0-3]):[0-5]\d)"
 NEXT_HOLIDAY_PATTERN = r"^NEXT\s*HOLIDAY$"
 # ALL_HOLIDAYS_PATTERN = r"^ALL\s*HOLIDAYS$"
 INSTRUCTIONS_PATTERN = r"^INSTRUCTIONS"
+HELP_PATTERN = r"^HELP:\s*(.+)$"
 
 
 def process_message(phone_num, message):
@@ -34,6 +36,8 @@ def process_message(phone_num, message):
         _send_next_holiday(phone_num)
     elif re.match(INSTRUCTIONS_PATTERN, normalized_message_text):
         _send_instructions(phone_num)
+    elif re.match(HELP_PATTERN, normalized_message_text):
+        _send_answer(phone_num, normalized_message_text)
     else:  # no known pattern was matched
         _send_error_message(phone_num)
 
@@ -55,6 +59,7 @@ def _send_instructions(phone_num):
     'instructions': to get instructions
     'reminder hh:mm': to set a time reminder for the holiday
     'next holiday': to see the next holiday
+    'help: <your question>': to get an answer for a question short sms form
     """
     sending_msg_user(msg, phone_num)
 
@@ -62,3 +67,8 @@ def _send_instructions(phone_num):
 def _send_error_message(phone_num):
     msg = "Wrong Command, please send an sms with 'instructions' text to get possible commands."
     sending_msg_user(msg, phone_num)
+
+
+def _send_answer(phone_num, normalized_message_text):
+    user_message = normalized_message_text[5:]
+    sending_msg_user(answer_question_in_sms(user_message), phone_num)
