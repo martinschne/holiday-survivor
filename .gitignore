@@ -186,5 +186,6 @@ pyrightconfig.json
 .history
 .ionide
 
-# Generated file for storing processed messages
+# Generated files for storing processed messages
 processed_messages.json
+holiday_survivors_json.json

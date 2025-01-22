@@ -1,4 +1,6 @@
 import requests
+
+import sms_sender
 from config import TEAMNAME
 
 
@@ -42,11 +44,14 @@ def register_new_user(phone_num: str) -> bool:
     res = requests.post(
         url=num_registration_url, headers=request_headers, json=payload
     )
-    print(f"request status code: {res.status_code}")
+
     if res.status_code == 200:
         print(
             f"Successfully register the number {phone_num} to team {TEAMNAME}"
         )
+        welcome_message = """Welcome holiday survivor! 
+For usage instructions, respond with text: instructions"""
+        sms_sender.sending_msg_user(welcome_message, phone_num)
         return True
     else:
         print(f"Can not register the number {phone_num} to team {TEAMNAME}")
@@ -71,7 +76,6 @@ def unregister_user(phone_num: str) -> bool:  # currently not in use
     res = requests.post(
         url=num_unregistration_url, headers=request_headers, json=payload
     )
-    print(f"request status code: {res.status_code}")
     if res.status_code == 200:
         print(
             f"Successfully unregister the number {phone_num} from team {TEAMNAME}"

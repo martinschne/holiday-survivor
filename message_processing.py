@@ -1,13 +1,12 @@
 import re
 import time
 from datetime import datetime
-from sms_sender import sending_msg_user
+
 from holiday_service import HolidayService
-import scheduler
+from sms_sender import sending_msg_user
 
 REMINDER_PATTERN = r"^REMINDER\s*((?:[01]?\d|2[0-3]):[0-5]\d)"
 NEXT_HOLIDAY_PATTERN = r"^NEXT\s*HOLIDAY$"
-# ALL_HOLIDAYS_PATTERN = r"^ALL\s*HOLIDAYS$"
 INSTRUCTIONS_PATTERN = r"^INSTRUCTIONS"
 
 
@@ -44,14 +43,14 @@ def process_message(phone_num, message):
 
 def _set_reminder_time(phone_num, reminder_time):
     msg = (
-        f"🎉 Reminder successfully set at {reminder_time}.\n"
-        + f"You will get a notification one day before each holiday at {reminder_time}."
+            f"🎉 Reminder successfully set at {reminder_time}.\n"
+            + f"You will get a notification one day before each holiday at {reminder_time}."
     )
 
     sending_msg_user(msg, phone_num)
 
     # set scheduler
-    scheduler.set_reminder_time(phone_num, reminder_time)
+    # scheduler.set_reminder_time(phone_num, reminder_time)
 
     # fake message for presentation
     time.sleep(10)
@@ -68,14 +67,13 @@ def _send_next_holiday(phone_num):
 
 
 def _send_instructions(phone_num):
-    msg = """
-    'instructions': to get instructions
-    'reminder hh:mm': to set a time reminder for the holiday
-    'next holiday': to see the next holiday
-    """
+    msg = """Usage Instructions:
+instructions: to receive usage instructions
+reminder hh:mm: (for example reminder 08:30) to set a time for holiday reminder
+next holiday: to receive next holiday"""
     sending_msg_user(msg, phone_num)
 
 
 def _send_error_message(phone_num):
-    msg = "Wrong Command, please send an sms with 'instructions' text to get possible commands."
+    msg = "Wrong Command, please respond with text 'instructions' to receive usage instructions."
     sending_msg_user(msg, phone_num)

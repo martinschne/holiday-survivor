@@ -2,6 +2,7 @@ import asyncio
 from datetime import datetime, timedelta
 
 import schedule
+
 from holiday_service import HolidayService
 from sms_sender import sending_msg_user
 
@@ -38,12 +39,12 @@ async def start_scheduler():
     """
     Initiate the scheduler and run tasks
     """
-    schedule.every().day.at().do(_remind_if_holiday_job, "1234").tag(
+    schedule.every().day.at(reminder_time).do(_remind_if_holiday_job, "1234").tag(
         REMINDER_TAG, 1234
     )
     while run:
         schedule.run_pending()
-        asyncio.sleep(1)
+        await asyncio.sleep(1)
 
 
 def set_reminder_time(phone_num, new_reminder_time):
@@ -65,18 +66,3 @@ def stop_scheduler():
     global run
     run = False
     schedule.clear()
-
-
-async def main():
-    asyncio.create_task(start_scheduler())
-    set_reminder_time("1234", 3)
-    set_reminder_time("12345", 3)
-
-    # Keep the program running indefinitely
-    await asyncio.get_event_loop().run_forever()
-
-
-asyncio.run(main())
-
-
-_remind_if_holiday_job("1234")

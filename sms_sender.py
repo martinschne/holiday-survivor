@@ -54,7 +54,6 @@ def sending_msg_user(msg, phone_num):
     res = requests.post(
         url=sms_sending_url, headers=request_headers, json=payload
     )
-    print(f"request status code: {res.status_code}")
     if res.status_code == 200:
         print("Successfully sending the message to the number")
         return True
