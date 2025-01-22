@@ -11,7 +11,6 @@ def new_team():
         "Content-Type": "application/json"
     }
     res = requests.post(url=team_creation_url, headers=request_headers, json=payload)
-    print(f"request status code: {res.status_code}")
     if res.status_code == 200:
         print(f"Successfully create a new team named {user_input}")
         return True

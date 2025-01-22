@@ -17,7 +17,6 @@ INTERVAL = 5  # seconds
 
 
 def poll_sms_messages(storage) -> None:
-    # while RUNNING:
     response = requests.get(URL + TEAM_NAME)
 
     if response.status_code != 200:
@@ -25,39 +24,6 @@ def poll_sms_messages(storage) -> None:
             f"Polling request to getMessages API endpoint failed with status code {response.status_code}")
     else:
         response_obj = response.json()
-    # TEST DATA
-    # response_obj = {
-    #     "12345": [
-    #         {
-    #             "text": "hello 1",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         },
-    #         {
-    #             "text": "hello 2",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         }
-    #     ],
-    #     "999": [
-    #         {
-    #             "text": "SUBSCRIBE TeadsfsfmAC",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         },
-    #         {
-    #             "text": "new message on 999",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         }
-    #     ],
-    #     "000": [
-    #         {
-    #             "text": "bachar",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         },
-    #         {
-    #             "text": "000 send second message",
-    #             "receivedAt": "2024-08-22T12:08:02.305+0000",
-    #         }
-    #     ],
-    # }
     storage_obj = storage.all()
 
     response_str = json.dumps(response_obj)
@@ -73,22 +39,10 @@ def poll_sms_messages(storage) -> None:
                 for message in response_obj[phone_num]:
                     # and process just those that are not saved in storage obj
                     if message not in storage_obj[phone_num]:
-                        print(f"{phone_num} sent: {message} - MESSAGE NOT SAVED, PROCESSING.")
-                        """ NOTE here goes process_message function: """
                         process_message(phone_num, message)
-                    else:
-                        print(f"{phone_num} sent: {message} - MESSAGE SAVED, SKIPPING.")
             else:  # phone number was not found in storage object
                 for message in response_obj[phone_num]:
                     # process all messages for the new number
-                    print(f"{phone_num} is new and sent: {message}. - MESSAGE NOT SAVED, PROCESSING.")
-                    """ NOTE here goes process_message function: """
                     process_message(phone_num, message)
 
-        storage._save(response_obj)
-
-    # time.sleep(INTERVAL)
-
-
-storage = JSONStorage("processed_messages.json")
-poll_sms_messages(storage)
+        storage.save(response_obj)
