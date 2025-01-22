@@ -9,7 +9,7 @@ class JSONStorage:
     This class provides methods to create, read, update, and delete entries in a JSON file.
     It also allows retrieving all stored key-value pairs.
     """
-  
+
     def __init__(self, file_path):
         """
         Initialize a new JSONStorage object.
@@ -35,7 +35,7 @@ class JSONStorage:
             # Load and return the data as a dictionary
             return json.load(f)
 
-    def _save(self, data: dict) -> None:
+    def save(self, data: dict) -> None:
         """
         Save the data to the JSON file.
 
@@ -63,7 +63,7 @@ class JSONStorage:
         # Create a new entry
         data[key] = value
         # Save the changes to the JSON file
-        self._save(data)
+        self.save(data)
 
     def read(self, key: str) -> str:
         """
@@ -107,7 +107,7 @@ class JSONStorage:
         data[key] = value
 
         # Save the updated data back to the JSON file
-        self._save(data)
+        self.save(data)
 
     def delete(self, key: str) -> None:
         """
@@ -129,7 +129,7 @@ class JSONStorage:
         del data[key]
 
         # Save the updated data back to the JSON file
-        self._save(data)
+        self.save(data)
 
     def all(self) -> dict:
         """
