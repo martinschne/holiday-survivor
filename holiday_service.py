@@ -1,14 +1,9 @@
-import os
 from datetime import datetime
 
 import requests
-from dotenv import load_dotenv
+from config import HOLIDAY_API_KEY as API_KEY
 
-load_dotenv()
-
-# API constants
 URL = "https://holidayapi.com/v1/holidays"
-API_KEY = os.getenv("HOLIDAY_API_KEY")
 COUNTRY_CODE = "DE"
 TODAY = datetime.now()
 FAKE_YEAR = 2024  # set the current year to 2024 because the API doesn't have data for 2025
