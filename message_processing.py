@@ -26,7 +26,6 @@ def process_message(phone_num, message):
         phone_num (str): The phone number of the user who sent the message.
         message (Message): The message object containing the text to be processed.
     """
-    # print(message)
     normalized_message_text = message["text"].strip().upper()
 
     if re.match(REMINDER_PATTERN, normalized_message_text):
